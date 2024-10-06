@@ -32,6 +32,7 @@ def gen():
     token = get_token()
     return redirect(f'/ticket/{token}')
 
+
 @app.route('/ticket/<token>')
 def ticket(token:str):
     # sanitize token
