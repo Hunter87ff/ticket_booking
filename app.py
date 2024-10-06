@@ -1,7 +1,9 @@
 import random, string
+from pymongo import MongoClient
+from dotenv import load_dotenv
 from flask import Flask, request, render_template, redirect
 from gevent.pywsgi import WSGIServer
-
+load_dotenv()
 
 app = Flask(__name__)
 
