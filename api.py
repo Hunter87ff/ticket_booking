@@ -12,6 +12,7 @@ def gen():
     ticket.save()
     return redirect(f'/ticket/{ticket.token}')
 
+
 @api.route('/ticket/<token>')
 def ticket(token:str):
     # sanitize token
@@ -23,7 +24,7 @@ def ticket(token:str):
 
 @api.route("/login", methods=["GET", "POST"])
 def login():
-    if request.cookies.get("token") == config.authToken:return redirect("/generate")
+    if config.is_manager(request.cookies.get("token")):return redirect("/generate")
     if request.method == "POST":
             data = request.form.to_dict()
             if config.userdb.find_one(data):

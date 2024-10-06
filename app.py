@@ -14,5 +14,5 @@ def generate():
     if request.cookies.get("token") != config.authToken:return redirect("/login")
     return render_template('generate.html')
 
-if config.development:
-    app.run(host='0.0.0.0', port=8787)
+# if config.development:
+#     app.run(host='0.0.0.0', port=8787)

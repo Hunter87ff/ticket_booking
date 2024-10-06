@@ -42,5 +42,6 @@ class Ticket:
         }
     
     
-def is_manager(token:str):
+def is_manager(token:str=None) -> bool:
+    token = token or ""
     return bool(userdb.find_one({"token": token})) 
