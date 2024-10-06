@@ -1,5 +1,7 @@
 import random, string
 from flask import Flask, request, render_template, redirect
+from gevent.pywsgi import WSGIServer
+
 
 app = Flask(__name__)
 
@@ -25,6 +27,8 @@ def generate():
 
 @app.route('/api/gen', methods=['POST'])
 def gen():
+    data = request.form.to_dict()
+    print(data)
     token = get_token()
     return redirect(f'/ticket/{token}')
 
@@ -33,8 +37,9 @@ def ticket(token:str):
     # sanitize token
     token = token.strip().lower()
     if token not in tokens: return render_template("error/invalidTicket.html")
-    return render_template('ticket.html', token=token, url=f"{BASE_URL}/ticket/{token}")
+    return render_template('ticket.html', token=token)
 
-
-app.run(host='0.0.0.0', port=8787)
+http_server = WSGIServer(('', 8787), app)
+http_server.serve_forever()
+# app.run(host='0.0.0.0', port=8787)
 
