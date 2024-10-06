@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
+
+.color-red{
+    color: red;
+}
+
+
+
+
+body, html {
+    min-width: 900px;
+    height: 100vh;
+    display: grid;
+    font-family: "Staatliches", cursive;
+    background: #31334c;
+    color: black;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+}
+.border{
+    border: 1px solid #0a0b0b;
+}
+/* .ticket{} */
+.ticket-img{
+    background-color: #0a0b0b;
+    background-image: url('/static/img/logo.png');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.lan{
+    color: #757575;
+    height: 250px;
+    letter-spacing: 0.15em;
+    display: flex;
+    text-align: center;
+    justify-content: space-around;
+    writing-mode: vertical-rl;
+    transform: rotate(-180deg);
+}
+.date {
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 5px 0;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    font-family: Staatliches;
+
+    *{
+        font-weight: 700;
+        padding-inline: 10px;
+    }
+    :nth-child(2){
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+        color: #c12026;
+        font-size: large;
+    }
+    
+}
+
+.ticket-info {
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between;
+    align-items: center;
+    /* font-family: ; */
+
+    .title{
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #830fee;
+        font-family: "Protest Strike", sans-serif;
+    }
+    .prize{
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-align: center;
+        color: #471315;
+    }
+    .event-time{
+        font-family: Staatliches;
+        color: #480487;
+    }
+    .location {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        padding-top: 8px;
+        border-top: 1px solid gray;
+        font-family: Staatliches;
+        
+    }
+}
+.right-info{
+    background-color: #f5f7f7;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 2px dotted;
+    .org{
+        transform: rotate(-180deg);
+        writing-mode: vertical-rl;
+        span{
+            padding-top: 1em;
+            color: gray;
+        }
+        span:nth-child(2){
+            font-weight: 700;
+            color: rgb(233, 27, 4);
+        }
+    }
+    img{
+        width: 120px;
+        height: 120px;
+    }
+    
+    .content{
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        .event-time p{
+            color: #480487;
+        }
+
+    }
+}
