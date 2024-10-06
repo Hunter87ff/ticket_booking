@@ -1,0 +1,1 @@
+gunicorn --threads 8 app:app
