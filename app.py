@@ -2,7 +2,7 @@ import random, string
 from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__)
-BASE_URL = "http://192.168.237.83:8787"
+
 tokens = []
 def get_token():
     token = ''.join(random.choices(string.ascii_lowercase + string.digits, k=10))
