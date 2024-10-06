@@ -6,6 +6,7 @@ api = Blueprint('api', __name__)
 
 @api.route('/api/gen', methods=['POST'])
 def gen():
+    if not config.is_manager(request.cookies.get("token")): return redirect("/login")
     data = request.form.to_dict()
     ticket = config.Ticket(data)
     ticket.save()
