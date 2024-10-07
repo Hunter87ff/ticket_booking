@@ -38,9 +38,5 @@ def admin():
     return render_template('pages/dashboard.html', event=config.event, admin=manage_perm)
 
 
-def run():
-    if config.development:
-        app.run(host='0.0.0.0', port=8787)
-    else:
-        os.system("gunicorn --threads 4 app:app")
-run()
+if config.development:
+    app.run(host='0.0.0.0', port=8787)
