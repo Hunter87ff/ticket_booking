@@ -4,6 +4,19 @@ from api import api
 app = Flask(__name__)
 app.register_blueprint(api)
 
+@app.errorhandler(404)
+def page_not_found(e):
+      return render_template('error/404.html'), 404
+
+@app.errorhandler(401)
+def unauthorized(e):return render_template('error/401.html'), 401
+
+@app.errorhandler(500)
+def internal_server_error(e):return render_template('error/500.html'), 500
+
+@app.errorhandler(405)
+def method_not_allowed(e):return render_template('error/405.html'), 405
+
 
 @app.route('/')
 def index():
