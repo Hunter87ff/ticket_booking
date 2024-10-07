@@ -69,13 +69,12 @@ class Event:
         self.date = event_date
         self._tickets = []
 
-    
     @property
     def tickets(self):
-        if self._tickets:
-            return self._tickets
+        if self._tickets:return self._tickets
         ticks = tokendb.find({})
         self._tickets = [Ticket(t) for t in ticks]
+        del ticks
         return self._tickets
     
 
@@ -107,3 +106,5 @@ def is_manager(token:str=None) -> bool | Admin:
     data = userdb.find_one({"token": token or "invalid"})
     if data:return Admin(data)
     return False
+
+event = Event()

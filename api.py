@@ -9,6 +9,7 @@ def gen():
     if not config.is_manager(request.cookies.get("token")): return redirect("/login")
     data = request.form.to_dict()
     ticket = config.Ticket(data).save()
+    config.event.add_ticket(ticket)
     return redirect(f'/ticket/{ticket.token}')
 
 

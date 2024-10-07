@@ -31,12 +31,12 @@ def generate():
 def admin():
     manage_perm = config.is_manager(request.cookies.get("token"))
     if  not manage_perm: return redirect("/login")
-    return render_template('dashboard.html', event=config.Event(), admin=manage_perm)
+    return render_template('dashboard.html', event=config.event, admin=manage_perm)
 
 
 def run():
     if config.development:
         app.run(host='0.0.0.0', port=8787)
     else:
-        os.system("gunicorn --threads 8 app:app")
+        os.system("gunicorn --threads 4 app:app")
 run()
