@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @media screen and (max-width: 640px) {
+
+            .tmail {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-white">
     <div class="container mx-auto p-4">
         <header class="flex justify-between items-center py-4">
             <h1 class="text-3xl font-bold">Dashboard</h1>
             <div class="text-right">
-                <p class="text-lg">Admin Username: <span class="font-semibold">{{admin.username}}</span></p>
-                <p class="text-sm">Email: {{admin.email}}</p>
+                <p class="text-lg"><span class="font-semibold">{{admin.username}}</span></p>
+                <p class="text-sm">{{admin.email}}</p>
             </div>
         </header>
 
@@ -30,12 +38,12 @@
 
             <section class="bg-gray-800 p-4 rounded-lg shadow-md col-span-1 md:col-span-2 lg:col-span-3">
                 <h2 class="text-xl font-semibold mb-2">Tickets and Holders</h2>
-                <table class="min-w-full bg-gray-700 rounded-lg">
+                <table class="min-w-full bg-gray-700 rounded-lg overflow-x-scroll">
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b border-gray-600">Ticket ID</th>
                             <th class="py-2 px-4 border-b border-gray-600">Holder Name</th>
-                            <th class="py-2 px-4 border-b border-gray-600">Email</th>
+                            <th class="py-2 px-4 border-b border-gray-600 tmail">Email</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +51,7 @@
                         <tr>
                             <td class="py-2 px-4 border-b border-gray-600">{{ticket.token}}</td>
                             <td class="py-2 px-4 border-b border-gray-600">{{ticket.name}}</td>
-                            <td class="py-2 px-4 border-b border-gray-600">{{ticket.email}}</td>
+                            <td class="py-2 px-4 border-b border-gray-600 tmail">{{ticket.email}}</td>
                         </tr>
                         {% endfor %}
                         <!-- Add more rows as needed -->
