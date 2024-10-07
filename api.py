@@ -8,8 +8,7 @@ api = Blueprint('api', __name__)
 def gen():
     if not config.is_manager(request.cookies.get("token")): return redirect("/login")
     data = request.form.to_dict()
-    ticket = config.Ticket(data)
-    ticket.save()
+    ticket = config.Ticket(data).save()
     return redirect(f'/ticket/{ticket.token}')
 
 
@@ -26,9 +25,13 @@ def ticket(token:str):
 def login():
     if config.is_manager(request.cookies.get("token")):return redirect("/generate")
     if request.method == "POST":
-            data = request.form.to_dict() or {}
-            if config.userdb.find_one(data):
-                resp = Response("<script>document.location.href=`${document.location.origin}/generate`</script>")
-                resp.set_cookie("token", config.authToken)
-                return resp
+            try:
+                data = request.form.to_dict() or {}
+                if config.userdb.find_one(data):
+                    resp = Response("<script>document.location.href=`${document.location.origin}/generate`</script>")
+                    resp.set_cookie("token", config.authToken)
+                    return resp
+            except Exception as e:
+                 config.log(e)
+                 return render_template("login.html", err="Invalid credentials")
     return render_template("login.html")

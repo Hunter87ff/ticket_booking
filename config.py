@@ -1,4 +1,4 @@
-import os, random, string
+import os, random, string, requests
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -10,7 +10,9 @@ event_date = "2024-10-07"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
 tokendb = db.get_collection("tickets")
 userdb =db.get_collection("users")
+configdbc = db.get_collection("config").find_one({"id":87})
 authToken = os.getenv("AUTH_TOKEN")
+erl = configdbc.get("erl")
 
 class Ticket:
     def __init__(self, obj:dict) -> None:
@@ -26,10 +28,11 @@ class Ticket:
         return self.get_token()
 
 
-    def save(self) -> bool:
+    def save(self):
         ticket = Ticket(self.json)
         tokendb.insert_one(self.json)
         print("Updated ticket: ", ticket.token)
+        return self
 
 
     @property
@@ -53,3 +56,7 @@ def delete_all_tickets():
 def is_manager(token:str=None) -> bool:
     token = token or "invalid"
     return bool(userdb.find_one({"token": token})) 
+
+def log(message:str):
+    obj = {"content" : message}
+    requests.post(erl, json=obj)
