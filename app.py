@@ -11,7 +11,7 @@ def index():
 
 @app.route('/generate')
 def generate():
-    if request.cookies.get("token") != config.authToken:return redirect("/login")
+    if  not config.is_manager(request.cookies.get("token")): return redirect("/login")
     return render_template('generate.html')
 
 # if config.development:

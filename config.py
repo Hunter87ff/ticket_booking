@@ -6,7 +6,7 @@ load_dotenv()
 
 
 development = os.getenv("DEV_env")
-event_date = "2024-10-23"
+event_date = "2024-10-07"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
 tokendb = db.get_collection("tickets")
 userdb =db.get_collection("users")
@@ -40,8 +40,16 @@ class Ticket:
             "token": self.token,
             "status": "valid"
         }
-    
+
+def delete_unused_tickets():
+    tokendb.delete_many({"status": "valid"})
+
+def delete_used_tickets():
+    tokendb.delete_many({"status": "used"})
+
+def delete_all_tickets():
+    tokendb.delete_many({})
     
 def is_manager(token:str=None) -> bool:
-    token = token or ""
+    token = token or "invalid"
     return bool(userdb.find_one({"token": token})) 

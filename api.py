@@ -16,8 +16,8 @@ def gen():
 @api.route('/ticket/<token>')
 def ticket(token:str):
     # sanitize token
-    doc = config.tokendb.find_one({"token": token, "status": "valid"})
-    if not doc: return render_template("error/invalidTicket.html", config=config)
+    doc = dict(config.tokendb.find_one({"token": token}) or {})
+    if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
     if config.is_manager(request.cookies.get("token")) and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: config.tokendb.update_one({"token": token}, {"$set": {"status": "used"}})
     return render_template('ticket.html', token=token)
 
@@ -26,7 +26,7 @@ def ticket(token:str):
 def login():
     if config.is_manager(request.cookies.get("token")):return redirect("/generate")
     if request.method == "POST":
-            data = request.form.to_dict()
+            data = request.form.to_dict() or {}
             if config.userdb.find_one(data):
                 resp = Response("<script>document.location.href=`${document.location.origin}/generate`</script>")
                 resp.set_cookie("token", config.authToken)
