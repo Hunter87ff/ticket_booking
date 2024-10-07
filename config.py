@@ -10,25 +10,26 @@ event_date = "2024-10-08"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
 tokendb = db.get_collection("tickets")
 userdb =db.get_collection("users")
-configdbc = db.get_collection("config").find_one({"id":87})
+configdbc = dict(db.get_collection("config").find_one({"id":87}))
 authToken = os.getenv("AUTH_TOKEN")
 erl = configdbc.get("erl")
 
 
-
 def delete_unused_tickets():
     tokendb.delete_many({"status": "valid"})
+    log("Deleted all unused tickets")
 
 def delete_used_tickets():
     tokendb.delete_many({"status": "used"})
+    log("Deleted all used tickets")
 
 def delete_all_tickets():
     tokendb.delete_many({})
+    log("Deleted all tickets")
     
 def log(message:str):
     obj = {"content" : message}
     requests.post(erl, json=obj)
-
 
 
 
@@ -51,7 +52,9 @@ class Ticket:
     def save(self):
         ticket = Ticket(self.json)
         tokendb.insert_one(self.json)
+        if event: event.add_ticket(ticket)
         print("Updated ticket: ", ticket.token)
+        
         return self
 
 
@@ -79,7 +82,7 @@ class Event:
     
 
     def add_ticket(self, ticket:Ticket):
-        ticket.save()
+        self._tickets.append(ticket)
         return self
     
     @property

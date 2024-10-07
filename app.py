@@ -22,16 +22,20 @@ def method_not_allowed(e):return render_template('error/405.html'), 405
 def index():
     return render_template('index.html')
 
+@app.route("/validate")
+def validate():
+    return render_template('pages/validate.html')
+
 @app.route('/generate')
 def generate():
     if  not config.is_manager(request.cookies.get("token")): return redirect("/login")
-    return render_template('generate.html')
+    return render_template('pages/generate.html')
 
 @app.route("/dashboard")
 def admin():
     manage_perm = config.is_manager(request.cookies.get("token"))
     if  not manage_perm: return redirect("/login")
-    return render_template('dashboard.html', event=config.event, admin=manage_perm)
+    return render_template('pages/dashboard.html', event=config.event, admin=manage_perm)
 
 
 def run():

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackdiamond Esports</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <style>
+        body {
+            background-color: #1a202c;
+            background: url("../static/img/background.webp");
+            background-size: cover;
+            color: #cbd5e0;
+            padding-top: 4rem; /* Add padding to prevent overlap */
+        }
+        /* add glass effect */
+        .nav-bar{
+            background-color: rgba(37, 14, 14, 0.281);
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgb(196, 184, 74);
+
+            #nav-content a:hover{
+                    color: #ddc50e;
+                    border-bottom: 1px solid #ddc50e;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <nav class="bg-gray-800 p-4 fixed w-full top-0 z-10 nav-bar">
+        <div class="container mx-auto flex flex-wrap justify-between items-center ">
+            <a href="#" class="text-xl text-white">BD ESPORTS</a>
+            <button class="text-white block md:hidden" id="nav-toggle">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <div class="hidden w-full md:flex md:items-center md:w-auto" id="nav-content">
+                <a href="/" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Home</a>
+                <a href="/validate" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Validate</a>
+                <a href="/dashboard" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+    <main>
+        {% block content %}
+            {# Template inserted here #}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <div class="mb-4">
+                <h3 class="text-xl text-white">About the Event</h3>
+                <p class="text-gray-400">Join us for an exciting LAN event featuring top gamers from around the world. Compete, watch, and enjoy!</p>
+            </div>
+            <div class="mb-4">
+                <a href="/about" class="text-gray-300  mx-2">About</a>
+                <a href="/contact" class="text-gray-300  mx-2">Contact</a>
+                <a href="/validate" class="text-gray-300  mx-2">Validate</a>
+            </div>
+            <div class="mb-4">
+                <a href="https://twitter.com" class="text-gray-300  mx-2">Twitter</a>
+                <a href="https://facebook.com" class="text-gray-300  mx-2">Facebook</a>
+                <a href="https://instagram.com" class="text-gray-300  mx-2">Instagram</a>
+            </div>
+            <div class="text-gray-400">
+                &copy; 2024 BD Esports. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // disable right click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray("section").forEach(section => {
+            gsap.fromTo(section, 
+                { opacity: 0, y: 50 }, 
+                { opacity: 1, y: 0, 
+                  duration: 1.5, // Increase duration for smoother transition
+                  ease: "power2.out", // Add easing for smoother effect
+                  scrollTrigger: {
+                      trigger: section,
+                      start: "top 80%",
+                      end: "bottom 20%",
+                      scrub: true
+                  }
+                }
+            );
+        });
+
+        function updateTimer() {
+            const eventDate = new Date('October 23, 2024 00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').innerHTML = "Event has started!";
+            }
+        }
+
+
+        document.getElementById('nav-toggle').addEventListener('click', () => {
+            document.getElementById('nav-content').classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
