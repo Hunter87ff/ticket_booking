@@ -6,7 +6,7 @@ load_dotenv()
 
 
 development = os.getenv("DEV_env")
-event_date = "2024-10-07"
+event_date = "2024-10-08"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
 tokendb = db.get_collection("tickets")
 userdb =db.get_collection("users")
@@ -38,6 +38,7 @@ class Ticket:
         self.email = obj.get("email")
         self.token = obj.get("token") or self.get_token()
         self.status = obj.get("status") or "valid"
+        self.valid = self.status == "valid"
 
 
     def get_token(self):

@@ -34,8 +34,6 @@ def admin():
     return render_template('dashboard.html', event=config.Event(), admin=manage_perm)
 
 
-
-
 def run():
     if config.development:
         app.run(host='0.0.0.0', port=8787)
