@@ -1,4 +1,4 @@
-import os, random, string, requests
+import os, random, string, requests, psutil
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -107,5 +107,21 @@ def is_manager(token:str=None) -> bool | Admin:
     data = userdb.find_one({"token": token or "invalid"})
     if data:return Admin(data)
     return False
+
+def system():
+    cpu_usage = psutil.cpu_percent()
+    memory = psutil.virtual_memory()
+    disk = psutil.disk_usage('/')
+    detail = f"""
+    ```
+    Total RAM : {memory.total / (1024**3):.2f} GB
+    CPU Cores : {psutil.cpu_count(logical=False)}
+    CPU Usage : {cpu_usage}%
+    RAM Usage : {memory.used//10**6} MB({memory.percent}%) | {psutil.Process(os.getpid()).memory_info().rss//2**20}MB
+    Total Disk: {disk.total//10**9} GB
+    Disk Usage: {disk.used//10**9} GB({disk.percent}%)
+    ```
+    """
+    return detail
 
 event = Event()
