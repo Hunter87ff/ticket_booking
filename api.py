@@ -30,9 +30,6 @@ def update_date():
 
 @api.route("/login", methods=["GET", "POST"])
 def login():
-    # refered page
-    refered_page = request.headers.get("Referer")
-    print(refered_page)
     if config.is_manager(request.cookies.get("token")):return redirect("/dashboard")
     if request.method == "POST":
         data = request.form.to_dict() or {"email":"", "password":""}
