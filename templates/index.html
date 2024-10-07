@@ -26,7 +26,7 @@
 
     <script>
         // disable right click
-        document.addEventListener('contextmenu', event => event.preventDefault());
+        // document.addEventListener('contextmenu', event => event.preventDefault());
         gsap.registerPlugin(ScrollTrigger);
 
         gsap.utils.toArray("section").forEach(section => {
@@ -65,9 +65,5 @@
 
         updateTimer(); // Call the function immediately to display the initial timer value
         const timerInterval = setInterval(updateTimer, 1000);
-
-        document.getElementById('nav-toggle').addEventListener('click', () => {
-            document.getElementById('nav-content').classList.toggle('hidden');
-        });
     </script>
 {% endblock %}
