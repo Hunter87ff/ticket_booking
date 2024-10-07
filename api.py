@@ -20,16 +20,18 @@ def ticket(token:str):
     if config.is_manager(request.cookies.get("token")) and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: config.tokendb.update_one({"token": token}, {"$set": {"status": "used"}})
     return render_template('ticket.html', token=token)
 
-@api.route("/api/login", methods=["POST"])
-def login_api():
-    data = request.form.to_dict() or {"email":"", "password":""}
-    if config.userdb.find_one(data):
-        resp = Response("<script>document.location.href=`${document.location.origin}/generate`</script>")
-        resp.set_cookie("token", config.authToken)
-        return resp
-    return render_template("login.html", err="Invalid credentials")
+
 
 @api.route("/login", methods=["GET", "POST"])
 def login():
     if config.is_manager(request.cookies.get("token")):return redirect("/generate")
+    if request.method == "POST":
+        data = request.form.to_dict() or {"email":"", "password":""}
+        user = dict(config.userdb.find_one(data))
+        if user:
+            resp = Response("<script>document.location.href=`${document.location.origin}/generate`</script>")
+            resp.set_cookie("token", user.get("token"))
+            return resp
+        return render_template("login.html", err="Invalid credentials")
+
     return render_template("login.html")
