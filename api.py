@@ -39,7 +39,7 @@ def login():
         user = dict(config.userdb.find_one(data) or {})
         if user:
             resp = Response("<script>document.location.href=`${document.location.origin}/dashboard`</script>")
-            resp.set_cookie("token", user.get("token"))
+            resp.set_cookie("token", user.get("token"), expires=datetime.datetime.now() + datetime.timedelta(days=30))
             return resp
         return render_template("pages/login.html", err="Invalid credentials")
 

@@ -13,8 +13,11 @@
             background: url("../static/img/background.webp");
             background-size: cover;
             color: #cbd5e0;
-            padding-top: 4rem; /* Add padding to prevent overlap */
+            padding-top: 4rem; /* Add padding to prevent overlap */ 
         }
+        html::-webkit-scrollbar {
+                display: none;
+            }
         /* add glass effect */
         .nav-bar{
             background-color: rgba(37, 14, 14, 0.281);
@@ -39,7 +42,7 @@
             </button>
             <div class="hidden w-full md:flex md:items-center md:w-auto" id="nav-content">
                 <a href="/" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Home</a>
-                <a href="/validate" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Validate</a>
+                <a href="#" onclick="document.location.href='http://wa.me/918987174917?text=Hello%20Black%20Diamond%20Esports%20Team,%20I%20would%20like%20to%20book%20an%20audience%20ticket%20for%20the%20Master%20of%20Destruction%20BGMI%20LAN%20event'" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Book Ticket</a>
                 <a href="/dashboard" class="block mt-4 md:inline-block md:mt-0 text-gray-300  mx-2">Dashboard</a>
             </div>
         </div>
@@ -75,42 +78,23 @@
     <script>
         // disable right click
         document.addEventListener('contextmenu', event => event.preventDefault());
-        gsap.registerPlugin(ScrollTrigger);
+        // gsap.registerPlugin(ScrollTrigger);
 
-        gsap.utils.toArray("section").forEach(section => {
-            gsap.fromTo(section, 
-                { opacity: 0, y: 50 }, 
-                { opacity: 1, y: 0, 
-                  duration: 1.5, // Increase duration for smoother transition
-                  ease: "power2.out", // Add easing for smoother effect
-                  scrollTrigger: {
-                      trigger: section,
-                      start: "top 80%",
-                      end: "bottom 20%",
-                      scrub: true
-                  }
-                }
-            );
-        });
-
-        function updateTimer() {
-            const eventDate = new Date('October 23, 2024 00:00:00').getTime();
-            const now = new Date().getTime();
-            const distance = eventDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('timer').innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                document.getElementById('timer').innerHTML = "Event has started!";
-            }
-        }
-
+        // gsap.utils.toArray("section").forEach(section => {
+        //     gsap.fromTo(section, 
+        //         { opacity: 0, y: 50 }, 
+        //         { opacity: 1, y: 0, 
+        //           duration: 1.5, // Increase duration for smoother transition
+        //           ease: "power2.out", // Add easing for smoother effect
+        //           scrollTrigger: {
+        //               trigger: section,
+        //               start: "top 80%",
+        //               end: "bottom 20%",
+        //               scrub: true
+        //           }
+        //         }
+        //     );
+        // });
 
         document.getElementById('nav-toggle').addEventListener('click', () => {
             document.getElementById('nav-content').classList.toggle('hidden');

@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-
 development = os.getenv("DEV_env")
 event_date = "2024-10-08"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
@@ -30,7 +29,6 @@ def delete_all_tickets():
 def log(message:str):
     obj = {"content" : message}
     requests.post(erl, json=obj)
-
 
 
 class Ticket:
