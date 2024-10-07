@@ -1,4 +1,4 @@
-x = {}
+x = []
 # check if x is empty
-if not x:
+if  x:
     print("x is empty")

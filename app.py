@@ -1,4 +1,4 @@
-import  config
+import  config, os
 from flask import Flask, request, render_template, redirect
 from api import api
 app = Flask(__name__)
@@ -27,5 +27,18 @@ def generate():
     if  not config.is_manager(request.cookies.get("token")): return redirect("/login")
     return render_template('generate.html')
 
-# if config.development:
-#     app.run(host='0.0.0.0', port=8787)
+@app.route("/dashboard")
+def admin():
+    manage_perm = config.is_manager(request.cookies.get("token"))
+    if  not manage_perm: return redirect("/login")
+    return render_template('dashboard.html', event=config.Event(), admin=manage_perm)
+
+
+
+
+def run():
+    if config.development:
+        app.run(host='0.0.0.0', port=8787)
+    else:
+        os.system("gunicorn --threads 8 app:app")
+run()
