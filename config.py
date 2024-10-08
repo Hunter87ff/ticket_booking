@@ -68,19 +68,23 @@ class Ticket:
 class Event:
     def __init__(self) -> None:
         self.date = event_date
-        self._tickets = []
+        self._tickets = dict()
 
     @property
     def tickets(self):
         if self._tickets:return self._tickets
         ticks = tokendb.find({})
-        self._tickets = [Ticket(t) for t in ticks]
+        self._tickets = {tick.get("token"): Ticket(tick) for tick in ticks} # mo
         del ticks
         return self._tickets
     
+    def update_ticket(self, token:str, status:str):
+        self._tickets[token].status = status
+        tokendb.update_one({"token": token}, {"$set": {"status": status}})
+        return self
 
     def add_ticket(self, ticket:Ticket):
-        self._tickets.append(ticket)
+        self._tickets[ticket.token] = ticket
         return self
     
     @property

@@ -1,0 +1,70 @@
+
+.font-bebas{font-family: "Bebas Neue", sans-serif;}
+
+/* BORDER */
+.border{border: 1px solid gray;}
+.bb{border-bottom: 1px solid gray;}
+.br{border-right: 1px solid gray;}
+.bl{border-left: 1px solid gray;}
+.bt{border-top: 1px solid gray;}
+
+/* BORDER RADIUS */
+.tr-curve{border-top-right-radius: 60px 100px;}
+.tl-curve{border-top-left-radius: 60px 100px;}
+
+.text-shadow{text-shadow: 3px 2px 2px #090505;}
+
+
+body, html {
+    min-width: 900px;
+    height: 100vh;
+    display: grid;
+    font-family: "Staatliches", cursive;
+    background: #31334c;
+    color: black;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+}
+
+.ticket{
+    min-height: 250px;
+    min-width: 600px;
+}
+
+.left-content{
+    min-width: 650px;
+    min-height: 250px;
+}
+
+.right-content{
+    min-width: 200px;
+    min-height: 250px;
+    background: url('/static/img/tick_bg.jpg');
+    /* background-color: rgb(236, 130, 9); */
+    /* background-size: cover; */
+}
+
+.banner{
+    background-color: #0a0b0b;
+    background-image: url('/static/img/tick_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* filter:hue-rotate(320deg) */
+}
+.title{
+    font-family: "Bebas Neue", sans-serif;
+    word-spacing: 1rem;
+    text-shadow: 3px 2px 4px #090505;
+}
+
+#qr{
+    max-width: 100px;
+    max-height: 100px;
+    place-self: center;
+    align-self: center;
+}
+

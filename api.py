@@ -17,8 +17,10 @@ def ticket(token:str):
     # sanitize token
     doc = dict(config.tokendb.find_one({"token": token}) or {})
     if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
-    if config.is_manager(request.cookies.get("token")) and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: config.tokendb.update_one({"token": token}, {"$set": {"status": "used"}})
+    if config.is_manager(request.cookies.get("token")) and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: 
+        config.event.update_ticket(token, "used")
     return render_template('pages/ticket.html', token=token)
+
 
 @api.route("/api/update_date")
 def update_date():
