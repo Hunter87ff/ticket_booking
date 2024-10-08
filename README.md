@@ -48,7 +48,7 @@ Ensure you have the following installed:
 
 1. **Clone the Repository**:
     ```sh
-    git clone https://github.com/yourusername/ticket_booking.git
+    git clone https://github.com/hunter87ff/ticket_booking.git
     cd ticket_booking
     ```
 
