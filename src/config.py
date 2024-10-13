@@ -79,15 +79,25 @@ class Ticket:
 class Event:
     def __init__(self) -> None:
         self._tickets = dict()
+        self._date:str = configdbc.get("event_date")
+        self._total_tickets:int = int()
 
     @property
+    def total_tickets(self) -> int:
+        if self._total_tickets==0:
+            self._tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})}
+            self._total_tickets = len(self._tickets)
+        return self._total_tickets
+
+
     def date(self):
-        return configdbc.get("event_date")
-
-    @property
-    def tickets(self):
-        _tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})} # mo
-        return _tickets
+        return self._date
+    
+    
+    def tickets(self) -> dict:
+        self._tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})} # mo
+        self._total_tickets = len(self._tickets)
+        return self._tickets
     
     def update_ticket(self, token:str, status:str):
         self._tickets[token].status = status
@@ -97,11 +107,6 @@ class Event:
     def add_ticket(self, ticket:Ticket):
         self._tickets[ticket.token] = ticket
         return self
-    
-    @property
-    def tickSold(self):
-        return len(self.tickets)
-    
 
 class Admin:
     def __init__(self, obj:dict) -> None:

@@ -34,7 +34,8 @@ def update_date():
             date = request.args.get("date")
             print("Date: ", date)
             config.event_date(date)
-            return {"status": "success"}, 200
+            config.event._date = date
+            return {"status": "success", "date": date}, 200
         except Exception as e:
             return {"status": "error", "message": str(e)}, 500
         

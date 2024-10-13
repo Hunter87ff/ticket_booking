@@ -22,12 +22,12 @@
         <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <section class="bg-gray-800 p-4 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold mb-2">Tickets Sold</h2>
-                <p class="text-4xl font-bold">{{event.tickSold}}</p>
+                <p class="text-4xl font-bold">{{event.total_tickets}}</p>
             </section>
 
             <section class="bg-gray-800 p-4 rounded-lg shadow-md content-center">
                 <h2 class="text-xl font-semibold mb-2">Event Date</h2>
-                <input class="text-lg outline-none bg-gray-800 text-white rounded-lg" id="event-date" value="{{event.date}}">
+                <input class="text-lg outline-none bg-gray-800 text-white rounded-lg" id="event-date" value="{{event.date()}}">
                 <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="date_btn">Update Event Date</button>
             </section>
             
@@ -49,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for ticket in event.tickets.values() %}
+                        {% for ticket in event.tickets().values() %}
                         <tr id="ticket-{{ticket.token}}" oncontextmenu="delete_ticket(this)">
                             <td class="py-2 px-4 border-b border-gray-600">{{'✅' if ticket.valid else '❌'}} {{ticket.token}}</td>
                             <td class="py-2 px-4 border-b border-gray-600">{{ticket.name}}</td>
