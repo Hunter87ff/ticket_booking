@@ -29,8 +29,6 @@ def event_date(date:str=None):
     configdbc["event_date"] = date
     return date
 
-
-
 def delete_unused_tickets():
     tokendb.delete_many({"status": "valid"})
     log("Deleted all unused tickets")
@@ -88,11 +86,8 @@ class Event:
 
     @property
     def tickets(self):
-        # if self._tickets:return self._tickets
-        ticks = tokendb.find({})
-        self._tickets = {tick.get("token"): Ticket(tick) for tick in ticks} # mo
-        del ticks
-        return self._tickets
+        _tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})} # mo
+        return _tickets
     
     def update_ticket(self, token:str, status:str):
         self._tickets[token].status = status
