@@ -1,0 +1,43 @@
+name: PY_Test
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'
+    
+permissions:
+  contents: read
+
+env:
+  MONGO_URI : ${{ secrets.MONGO_URI }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10.9  
+        
+    - name: Setup CF
+      run: |
+        curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i cloudflared.deb && sudo cloudflared service install ${{ secrets.CF_KEY }}
+
+    - name: Setup Deploy
+      run: |
+        python -m venv .venv
+        . .venv/bin/activate
+        pip install -r requirements.txt
+        gunicorn --workers 4 --threads 8 --timeout 60  app:app
+        
+      working-directory: ./src  # Change this to your project's root directory
+
+    # - name: Deploy
+    #   run: |
+    #     gunicorn -w 2 app:app
+    #   # python src/app.py
