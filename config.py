@@ -1,17 +1,34 @@
-import os, random, string, requests, psutil
+import os
+import psutil
+import random
+import string
+import requests
+import functools
+from flask import redirect, current_app, request, Response
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
 
 
 development = os.getenv("DEV_env")
-event_date = "2024-10-08"
 db = MongoClient(os.getenv("MONGO_URI"))["Database"]
 tokendb = db.get_collection("tickets")
 userdb =db.get_collection("users")
-configdbc = dict(db.get_collection("config").find_one({"id":87}))
+configdb = db.get_collection("config")
+configdbc = dict(configdb.find_one({"id":87}))
 authToken = os.getenv("AUTH_TOKEN")
 erl = configdbc.get("erl")
+def log(message:str):
+    obj = {"content" : message}
+    requests.post(erl, json=obj)
+
+
+def event_date(date:str=None):
+    if date:configdb.update_one({"id": 87}, {"$set": {"event_date": date}})
+    else:date = configdbc.get("event_date")
+    configdbc["event_date"] = date
+    return date
+
 
 
 def delete_unused_tickets():
@@ -25,10 +42,6 @@ def delete_used_tickets():
 def delete_all_tickets():
     tokendb.delete_many({})
     log("Deleted all tickets")
-    
-def log(message:str):
-    obj = {"content" : message}
-    requests.post(erl, json=obj)
 
 
 class Ticket:
@@ -67,12 +80,15 @@ class Ticket:
 
 class Event:
     def __init__(self) -> None:
-        self.date = event_date
         self._tickets = dict()
 
     @property
+    def date(self):
+        return configdbc.get("event_date")
+
+    @property
     def tickets(self):
-        if self._tickets:return self._tickets
+        # if self._tickets:return self._tickets
         ticks = tokendb.find({})
         self._tickets = {tick.get("token"): Ticket(tick) for tick in ticks} # mo
         del ticks
@@ -110,7 +126,10 @@ class Admin:
 def is_manager(token:str=None) -> bool | Admin:
     data = userdb.find_one({"token": token or "invalid"})
     if data:return Admin(data)
-    return False
+    return None
+
+def authorised():
+    return is_manager(request.cookies.get("token"))
 
 def system():
     cpu_usage = psutil.cpu_percent()
@@ -128,4 +147,7 @@ def system():
     """
     return detail
 
+
 event = Event()
+
+

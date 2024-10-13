@@ -29,12 +29,12 @@ def validate():
 
 @app.route('/generate')
 def generate():
-    if  not config.is_manager(request.cookies.get("token")): return redirect("/login")
+    if  not config.authorised(): return redirect("/login")
     return render_template('pages/generate.html')
 
 @app.route("/dashboard")
 def admin():
-    manage_perm = config.is_manager(request.cookies.get("token"))
+    manage_perm = config.authorised()
     if  not manage_perm: return redirect("/login")
     return render_template('pages/dashboard.html', event=config.event, admin=manage_perm)
 

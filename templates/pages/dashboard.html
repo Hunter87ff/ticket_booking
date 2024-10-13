@@ -27,14 +27,14 @@
 
             <section class="bg-gray-800 p-4 rounded-lg shadow-md content-center">
                 <h2 class="text-xl font-semibold mb-2">Event Date</h2>
-                <p class="text-lg" contenteditable="" >{{event.date}}</p>
-                <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update Event Date</button>
+                <input class="text-lg outline-none bg-gray-800 text-white rounded-lg" id="event-date" value="{{event.date}}">
+                <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="date_btn">Update Event Date</button>
             </section>
             
             <section class="bg-gray-800 p-4 rounded-lg shadow-md content-center">
                 <h2 class="text-xl font-semibold mb-2">Create Tickets</h2>
                 <!-- <p class="text-lg" contenteditable="" >{{event.date}}</p> -->
-                <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="document.location.href='/generate'">Create</button>
+                <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="window.open('/generate', '_blank')">Create</button>
             </section>
 
 
@@ -44,13 +44,13 @@
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b border-gray-600">Ticket ID</th>
-                            <th class="py-2 px-4 border-b border-gray-600">Holder Name</th>
+                            <th class="py-2 px-4 border-b border-gray-600">Name</th>
                             <th class="py-2 px-4 border-b border-gray-600 tmail">Email</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for ticket in event.tickets.values() %}
-                        <tr>
+                        <tr id="ticket-{{ticket.token}}" oncontextmenu="delete_ticket(this)">
                             <td class="py-2 px-4 border-b border-gray-600">{{'✅' if ticket.valid else '❌'}} {{ticket.token}}</td>
                             <td class="py-2 px-4 border-b border-gray-600">{{ticket.name}}</td>
                             <td class="py-2 px-4 border-b border-gray-600 tmail">{{ticket.email}}</td>
@@ -62,4 +62,33 @@
             </section>
         </main>
     </div>
+    <script>
+        document.getElementById('date_btn').addEventListener('click', function() {
+            var date = document.querySelector('#event-date').value;
+            fetch(`/api/update_date?date=${date}`)
+                .then(function(response) {
+                if (response.ok) {
+                    alert('Event date updated successfully');
+                } else {
+                    alert('Failed to update event date');
+                }
+            });
+        });
+
+        function delete_ticket(data){
+            let token = data.id.split('-')[1];
+            let confirm = window.confirm('Are you sure you want to delete this ticket?');
+            if (!confirm) return;
+            fetch(`/api/delete_ticket/${token}`)
+                .then(function(response) {
+                if (response.ok) {
+                    alert('Ticket deleted successfully');
+                    data.remove();
+                } else {
+                    alert('Failed to delete ticket');
+                }
+            });
+        }
+
+    </script>
 {% endblock %}
