@@ -80,20 +80,18 @@ class Event:
     def __init__(self) -> None:
         self._tickets = dict()
         self._date:str = configdbc.get("event_date")
-        self._total_tickets:int = int()
 
-    @property
-    def total_tickets(self) -> int:
-        if self._total_tickets==0:
-            self._tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})}
-            self._total_tickets = len(self._tickets)
-        return self._total_tickets
+
+    def total_tickets(self):
+        _count =  tokendb.count_documents({})
+        print("Total Tickets: ", _count)
+        return _count
 
 
     def date(self):
         return self._date
     
-    
+
     def tickets(self) -> dict:
         self._tickets = {tick.get("token"): Ticket(tick) for tick in tokendb.find({})} # mo
         self._total_tickets = len(self._tickets)

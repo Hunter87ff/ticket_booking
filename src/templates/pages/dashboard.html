@@ -22,7 +22,7 @@
         <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <section class="bg-gray-800 p-4 rounded-lg shadow-md">
                 <h2 class="text-xl font-semibold mb-2">Tickets Sold</h2>
-                <p class="text-4xl font-bold">{{event.total_tickets}}</p>
+                <p class="text-4xl font-bold">{{event.total_tickets()}}</p>
             </section>
 
             <section class="bg-gray-800 p-4 rounded-lg shadow-md content-center">
@@ -82,8 +82,9 @@
             fetch(`/api/delete_ticket/${token}`)
                 .then(function(response) {
                 if (response.ok) {
-                    alert('Ticket deleted successfully');
                     data.remove();
+                    alert('Ticket deleted successfully');
+                    window.location.reload();
                 } else {
                     alert('Failed to delete ticket');
                 }
