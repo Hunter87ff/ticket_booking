@@ -25,7 +25,7 @@ def log(message:str):
 
 def event_date(date:str=None):
     if date:configdb.update_one({"id": 87}, {"$set": {"event_date": date}})
-    else:date = configdbc.get("event_date")
+    else:date = configdb.find_one({"id":87}).get("event_date")
     configdbc["event_date"] = date
     return date
 
@@ -88,8 +88,8 @@ class Event:
         return _count
 
 
-    def date(self):
-        return self._date
+    def date(self, date:str=None):
+        return event_date(date)
     
 
     def tickets(self) -> dict:
