@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="tick2.css">
+    <link rel="stylesheet" href="/static/css/tick2.css">
     <style>
         .bdesp{
             /* background: #111010; */
@@ -20,13 +20,14 @@
 <body class="flex items-center justify-center bg-gray-700">
     <div class="ticket relative bg-white flex ">
        <div class="left-content flex flex-col w-3/4">
+
             <div class="banner  w-full  font-bold h-5/6 text-white flex flex-col">
                 <div class="bdesp absolute top-0 right-0">
-                    <img src="../img/org.png" class="w-16 min-h-36 bdesp " alt="">
+                    <img src="/static/img/org.png" class="w-16 max-h-20 bdesp" alt="">
                 </div> 
                 <div class="banner-content flex flex-col">
                     <div class="title-con flex text-center">
-                        <!-- <img src="/static/img/logo.png" class="w-20 border" alt=""> -->
+                        <img src="/static/img/logo.png" class="w-20 border hidden" alt="">
                         <h1 class="text-7xl title text-gray-200">MASTER OF DESTRUCTION</h1>
                     </div>
                     
@@ -44,10 +45,10 @@
             <div class="bottom-info flex flex-row">
                 <div class="venue-info-wrapper br w-1/2 h-full flex flex-col text-center">
                     <p class="justify-center text-red-500 font-bold">
-                        <span class="text-gray-400">Name: </span>Ayush Das
+                        <span class="text-gray-400">Name: </span>{{doc.get('name')}}
                     </p>
                     <p class="justify-center text-red-500 font-bold">
-                        <span class="text-gray-400">Gender : </span>Male
+                        <span class="text-gray-400">Gender : </span>{{doc.get('gender')}}
                     </p>
                 </div>
                 <div class="datetime-info-wrapper  w-1/2 h-full flex flex-col text-center">
@@ -66,13 +67,18 @@
                 <h1 class="text-4xl text-center text-white font-bebas my-2">EVENT TICKET</h1>
                 <p>Verify Ticket</p>
                 <div class="divider h-px w-full bg-white my-2"></div>
-                <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://masterofdestruction.sprucbot.tech/ticket/fgrg678t43" alt="" class="qr-code">
+                <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://mod.sprucbot.tech/ticket/fgrg678t43" alt="" class="qr-code">
                 <div class="ticket-code">
-                    <p class="my-4 px-4 py-1 bg-gray-700 text-white rounded-full font-bebas">ID: #fgrg678t43</p>
+                    <p class="my-4 px-4 py-1 bg-gray-700 text-white rounded-full font-bebas">ID: #{{doc.get("token")}}</p>
                 </div>
             </div>
        </div>
     </div>
+    <script>
+        window.onload = function(){
+            window.print();
+        }
+    </script>
 </body>
 </html>
 <!-- <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://masterofdestruction.sprucbot.tech/ticket/fgrg678t43" alt="" class="qr-code">

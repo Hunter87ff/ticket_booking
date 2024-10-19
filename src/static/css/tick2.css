@@ -46,7 +46,7 @@ body, html {
 
 .banner{
     background-color: #0a0b0b;
-    background-image: url('../img/tick_bg.jpg');
+    background-image: url('/static/img/tick_bg.jpg');
     background-size: cover;
     background-position: center;
     display: flex;

@@ -45,6 +45,7 @@ def delete_all_tickets():
 class Ticket:
     def __init__(self, obj:dict) -> None:
         self.name = obj.get("name")
+        self.gender = obj.get("gender")
         self.email = obj.get("email")
         self.token = obj.get("token") or self.get_token()
         self.status = obj.get("status") or "valid"
@@ -72,6 +73,7 @@ class Ticket:
         return {
             "name": self.name,
             "email": self.email,
+            "gender": self.gender,
             "token": self.token,
             "status": self.status
         }

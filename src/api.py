@@ -17,7 +17,7 @@ def gen():
     return redirect(f'/ticket/{ticket.token}')
 
 
-@api.route('/ticket/<token>')
+@api.route('/ticke2/<token>')
 def ticket(token:str):
     # sanitize token
     doc = dict(config.tokendb.find_one({"token": token}) or {})
@@ -25,6 +25,15 @@ def ticket(token:str):
     if config.authorised() and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: 
         config.event.update_ticket(token, "used")
     return render_template('pages/ticket.html', token=token)
+
+
+@api.route("/ticket/<token>")
+def tickets(token:str):
+    doc = dict(config.tokendb.find_one({"token": token}) or {})
+    if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
+    if config.authorised() and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: 
+        config.event.update_ticket(token, "used")
+    return render_template('pages/ticket2.html', doc=doc)
 
 
 @api.route("/api/update_date")
