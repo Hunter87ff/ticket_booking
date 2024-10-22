@@ -50,7 +50,7 @@
                     </thead>
                     <tbody>
                         {% for ticket in event.tickets().values() %}
-                        <tr id="ticket-{{ticket.token}}" oncontextmenu="delete_ticket(this)">
+                        <tr id="ticket-{{ticket.token}}" oncontextmenu="delete_ticket(this)" onclick='preview("{{ticket.token}}")'>
                             <td class="py-2 px-4 border-b border-gray-600">{{'✅' if ticket.valid else '❌'}} {{ticket.token}}</td>
                             <td class="py-2 px-4 border-b border-gray-600">{{ticket.name}}</td>
                             <td class="py-2 px-4 border-b border-gray-600 tmail">{{ticket.email}}</td>
@@ -74,6 +74,10 @@
                 }
             });
         });
+
+        function preview(token){
+            window.open(`/api/ticket/preview/${token}`, '_blank');
+        }
 
         function delete_ticket(data){
             let token = data.id.split('-')[1];

@@ -14,17 +14,7 @@ def gen():
     if not config.authorised(): return redirect("/login")
     data = request.form.to_dict()
     ticket = config.Ticket(data).save()
-    return redirect(f'/ticket/{ticket.token}')
-
-
-@api.route('/ticke2/<token>')
-def ticket(token:str):
-    # sanitize token
-    doc = dict(config.tokendb.find_one({"token": token}) or {})
-    if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
-    if config.authorised() and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: 
-        config.event.update_ticket(token, "used")
-    return render_template('pages/ticket.html', token=token)
+    return  redirect(f"/api/ticket/preview/{ticket.token}")   #redirect(f'/ticket/{ticket.token}')
 
 
 @api.route("/ticket/<token>")
@@ -33,6 +23,13 @@ def tickets(token:str):
     if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
     if config.authorised() and str(datetime.datetime.date(datetime.datetime.now())) == config.event_date: 
         config.event.update_ticket(token, "used")
+    return render_template('pages/ticket2.html', doc=doc)
+
+
+@api.route("/api/ticket/preview/<token>")
+def preview_ticket(token:str):
+    doc = dict(config.tokendb.find_one({"token": token}) or {})
+    if not doc or doc.get("status")=="used": return render_template("error/invalidTicket.html", err=doc.get("status") or "invalid")
     return render_template('pages/ticket2.html', doc=doc)
 
 

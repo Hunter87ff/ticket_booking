@@ -3,8 +3,7 @@ import psutil
 import random
 import string
 import requests
-import functools
-from flask import redirect, current_app, request, Response
+from flask import  request
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()

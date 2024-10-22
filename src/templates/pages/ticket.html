@@ -70,10 +70,10 @@
     <button id="print" class="absolute bottom-0 bg-gray-100 rounded-full px-4">Print</button>
     <script>
         document.getElementById('qr').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${window.location.href}`;
-        document.querySelector('#print').addEventListener('click', function(e){
-            this.style.display = 'none';
-            window.print();
-        });
+        // document.querySelector('#print').addEventListener('click', function(e){
+        //     this.style.display = 'none';
+        //     window.print();
+        // });
     </script>
 </body>
 </html>

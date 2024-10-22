@@ -67,7 +67,7 @@
                 <h1 class="text-4xl text-center text-white font-bebas my-2">EVENT TICKET</h1>
                 <p>Verify Ticket</p>
                 <div class="divider h-px w-full bg-white my-2"></div>
-                <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://mod.sprucbot.tech/ticket/fgrg678t43" alt="" class="qr-code">
+                <img id="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&amp;data=https://mod.sprucbot.tech/ticket/{{doc.get('token')}}" alt="" class="qr-code">
                 <div class="ticket-code">
                     <p class="my-4 px-4 py-1 bg-gray-700 text-white rounded-full font-bebas">ID: #{{doc.get("token")}}</p>
                 </div>
@@ -75,9 +75,9 @@
        </div>
     </div>
     <script>
-        window.onload = function(){
-            window.print();
-        }
+        // window.onload = function(){
+        //     window.print();
+        // }
     </script>
 </body>
 </html>
