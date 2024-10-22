@@ -75,9 +75,12 @@
        </div>
     </div>
     <script>
-        // window.onload = function(){
-        //     window.print();
-        // }
+        window.onload = async function(){
+            if(window.location.href.includes("preview")){
+                window.print();
+            } 
+        }
+        
     </script>
 </body>
 </html>

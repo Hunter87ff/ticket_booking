@@ -3,7 +3,7 @@ import psutil
 import random
 import string
 import requests
-from flask import  request
+from flask import  request, Request
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,7 +17,7 @@ configdb = db.get_collection("config")
 configdbc = dict(configdb.find_one({"id":87}))
 authToken = os.getenv("AUTH_TOKEN")
 erl = configdbc.get("erl")
-def log(message:str):
+def log(message:str, *args):
     obj = {"content" : message}
     requests.post(erl, json=obj)
 
@@ -40,6 +40,8 @@ def delete_all_tickets():
     tokendb.delete_many({})
     log("Deleted all tickets")
 
+def get_ip(req:Request=request):
+    return req.headers.get("X-Forwarded-For", request.remote_addr)
 
 class Ticket:
     def __init__(self, obj:dict) -> None:
@@ -62,7 +64,6 @@ class Ticket:
         ticket = Ticket(self.json)
         tokendb.insert_one(self.json)
         if event: event.add_ticket(ticket)
-        print("Updated ticket: ", ticket.token)
         
         return self
 
@@ -85,7 +86,6 @@ class Event:
 
     def total_tickets(self):
         _count =  tokendb.count_documents({})
-        print("Total Tickets: ", _count)
         return _count
 
 
@@ -99,7 +99,6 @@ class Event:
         return self._tickets
     
     def update_ticket(self, token:str, status:str):
-        self._tickets[token].status = status
         tokendb.update_one({"token": token}, {"$set": {"status": status}})
         return self
 

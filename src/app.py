@@ -28,7 +28,6 @@ def validate():
     return render_template('pages/validate.html')
 
 
-
 @app.route('/generate')
 def generate():
     if  not config.authorised(): return redirect("/login")
