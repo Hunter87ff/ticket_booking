@@ -58,7 +58,7 @@ def delete_ticket(token:str=None):
             return {"status": "success"}, 200
         return {"status": "error", "message": "Unauthorized"}, 401
 
-
+# TODO : Ticket Transfer
 
 
 @api.route("/login", methods=["GET", "POST"])
